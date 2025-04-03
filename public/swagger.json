@@ -1,0 +1,81 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/retail_eggtv": {
+            "get": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "egg tv",
+                "operationId": "0ca15f3a66705b47589d35fe274926bc",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "정상 처리",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "조회 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "서버 오류입니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Ticket",
+            "description": "Ticket"
+        }
+    ]
+}
