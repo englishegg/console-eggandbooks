@@ -8,3 +8,5 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('/swagger', 'Swagger::generate'); //public에 swagger.json 파일 생성
 $routes->get('/swagger-api', 'Swagger::index'); //public에 swagger.json 파일 생성
+
+$routes->get('/api/v1/retail_eggtv', 'Products\EggTv\Ticket::readAllTickets');
