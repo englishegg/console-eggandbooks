@@ -1,20 +1,20 @@
 <?php
 if (!function_exists('setResponseFormat')) {
-    function setResponseFormat($response, $code, $message, $data, $log = null)
+    function setResponseFormat($response, $code, $data, $log = null)
     {
         if ($log) {
             log_message('error', 'setResponseFormat:::' . json_encode([
                     'data' => $data,
                     'code' => $code,
-                    'messageCode' => $message,
-                    'message' => empty($message) ? $message : getMessageByDomain($message)
+                    'messageCode' => $code,
+                    'message' => empty($code) ? $code : getMessageByDomain($code)
                 ]));
         }
 
         return $response->setJSON([
             'data' => $data,
             'code' => $code,
-            'message' => empty($message) ? $message : getMessageByDomain($message)
+            'message' => empty($code) ? $code : getMessageByDomain($code)
         ]);
     }
 }

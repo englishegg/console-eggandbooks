@@ -57,17 +57,17 @@ class Ticket extends BaseController
      *                 @OA\Property(property="has_fixed_end_date", type="string", example="0", description="이용권의 종료 일자가 명시적으로 정해져 있는지 여부"),
      *                 @OA\Property(property="subscription_days", type="string", example="20", description="구독 기간 OR 업그레이드 적용 기간(단위: 일)")
      *             ),
-     *             @OA\Property(property="code", type="string", example="200"),
-     *             @OA\Property(property="message", type="string", example="")
+     *             @OA\Property(property="code", type="string", nullable=true, example=null),
+     *             @OA\Property(property="message", type="string", nullable=true, example=null)
      *         )
      *     ),
      *     @OA\Response(
-     *         response="500",
+     *         response="401",
      *         description="조회 실패",
      *         @OA\JsonContent(
      *             @OA\Property(property="data", type="object", nullable=true, example=null),
-     *             @OA\Property(property="code", type="string", example="500"),
-     *             @OA\Property(property="message", type="string", example="데이터를 조회할 수 없습니다.")
+     *             @OA\Property(property="code", type="string", example="NOT_FOUND_MEMBER_INFO"),
+     *             @OA\Property(property="message", type="string", example="회원정보를 찾을 수 없습니다.")
      *         )
      *     )
      * )
