@@ -11,3 +11,4 @@ $routes->get('/swagger-api', 'Swagger::index'); //public에 swagger.json 파일 
 
 $routes->get('/api/v1/retail_eggtv', 'Products\EggTv\Ticket::readAllTickets');
 $routes->post('/api/v1/retail_eggtv', 'Products\EggTv\Ticket::createTicket');
+$routes->get('/api/v1/retail_eggtv/(:num)', 'Products\EggTv\Ticket::readOneTicket/$1');
