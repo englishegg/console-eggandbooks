@@ -11,7 +11,7 @@
                     "Ticket"
                 ],
                 "summary": "이용권 목록",
-                "operationId": "80dc02734295e8d3e6c4b777d682767f",
+                "operationId": "8a35aa316ece75cfecc80e76ff42cc0f",
                 "parameters": [
                     {
                         "name": "operatorId",
@@ -79,11 +79,143 @@
                                         },
                                         "code": {
                                             "type": "string",
-                                            "example": "200"
+                                            "example": null,
+                                            "nullable": true
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": ""
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "조회 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_MEMBER_INFO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "회원정보를 찾을 수 없습니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "이용권 추가",
+                "operationId": "dded7822d9240a168a01184d79b3b0d9",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "operatorId": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "teamId": {
+                                        "type": "string",
+                                        "example": "2"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "에그티비 7일 이용권"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "0"
+                                    },
+                                    "tier": {
+                                        "type": "string",
+                                        "example": "2"
+                                    },
+                                    "hasEndDate": {
+                                        "type": "string",
+                                        "example": "0"
+                                    },
+                                    "days": {
+                                        "type": "string",
+                                        "example": "10"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "정상 처리",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "eggtv_ticket_id": {
+                                                    "description": "이용권 ID",
+                                                    "type": "string",
+                                                    "example": "109"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "인증 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_MEMBER_INFO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "회원정보를 찾을 수 없습니다."
                                         }
                                     },
                                     "type": "object"
@@ -104,11 +236,11 @@
                                         },
                                         "code": {
                                             "type": "string",
-                                            "example": "500"
+                                            "example": "DUPLICATED_EGGTV_TICKET_CONDITION || MISSING_REQUIRED_DATA"
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "데이터를 조회할 수 없습니다."
+                                            "example": "이미 등록된 에그TV 이용권 조건입니다. || 데이터를 입력해주세요."
                                         }
                                     },
                                     "type": "object"
