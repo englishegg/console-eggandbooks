@@ -85,7 +85,7 @@ class Ticket extends BaseController
             return setResponseFormat($this->response, null, $result);
         } catch (Exception $e) {
             logException($e);
-            return setResponseFormat($this->response, $e->getCode(), null);
+            return setResponseFormat($this->response, $e->getMessage(), null);
         }
     }
 
@@ -152,20 +152,20 @@ class Ticket extends BaseController
             $type = $data->type;
             $tier = $data->tier;
             $days = $data->days;
-            $hasEndDate = $data->hasEndDate;
+            $hasEndDate = $data->hasEndDate === 0 ? null : $data->hasEndDate;
 
             if (!isset($operatorId) || !isset($teamId)) {
                 return setResponseFormat($this->response, 'NOT_FOUND_MEMBER_INFO', null);
             }
-            if (!isset($name) || !isset($type) || !isset($tier) || !isset($hasEndDate)) {
+            if (!isset($name) || !isset($type) || !isset($tier)) {
                 return setResponseFormat($this->response,'MISSING_REQUIRED_DATA', null);
             }
 
             $result = $this->spModel->executeSP('sp-op-eggtv_tickets-c-v2', 9, [$operatorId, $teamId, SERVER_ADDR, $name, $type, $tier, $hasEndDate, $days, $this->callDate]);
             return setResponseFormat($this->response, null, $result);
-        } catch (Exception $exception) {
-            logException($exception);
-            return setResponseFormat($this->response, $exception->getCode(), null);
+        } catch (Exception $e) {
+            logException($e);
+            return setResponseFormat($this->response, $e->getMessage(), null);
         }
     }
 
@@ -241,7 +241,7 @@ class Ticket extends BaseController
             return setResponseFormat($this->response, null, $result);
         } catch (Exception $e) {
             logException($e);
-            return setResponseFormat($this->response, $e->getCode(), null);
+            return setResponseFormat($this->response, $e->getMessage(), null);
         }
     }
 }
