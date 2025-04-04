@@ -4,17 +4,17 @@ if (!function_exists('setResponseFormat')) {
     {
         if ($log) {
             log_message('error', 'setResponseFormat:::' . json_encode([
+                    'data' => $data,
                     'code' => $code,
                     'messageCode' => $message,
-                    'message' => empty($message) ? $message : getMessageByDomain($message),
-                    'data' => $data
+                    'message' => empty($message) ? $message : getMessageByDomain($message)
                 ]));
         }
 
         return $response->setJSON([
+            'data' => $data,
             'code' => $code,
-            'message' => empty($message) ? $message : getMessageByDomain($message),
-            'data' => $data
+            'message' => empty($message) ? $message : getMessageByDomain($message)
         ]);
     }
 }

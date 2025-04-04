@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
-
 /**
  * @package App\Controllers
  * @OA\Info(title="API", version="1.0.0")
