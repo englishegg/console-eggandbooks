@@ -1006,6 +1006,138 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "이용권 코드 발행",
+                "operationId": "91219d8e2a8d8b0899b5ab7698edd1cb",
+                "parameters": [
+                    {
+                        "name": "ticketId",
+                        "in": "path",
+                        "description": "이용권 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "55"
+                        }
+                    },
+                    {
+                        "name": "issueId",
+                        "in": "path",
+                        "description": "이용권 발행 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "26"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "operatorId": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "teamId": {
+                                        "type": "string",
+                                        "example": "2"
+                                    },
+                                    "alias": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "maxCount": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "expiryDate": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "useByDays": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "정상 처리",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "인증 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_MEMBER_INFO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "회원정보를 찾을 수 없습니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },

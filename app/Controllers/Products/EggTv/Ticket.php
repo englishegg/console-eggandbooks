@@ -576,4 +576,84 @@ class Ticket extends BaseController
             return setResponseFormat($this->response, $e->getMessage(), null);
         }
     }
+
+    /**
+     * @OA\Put(
+     *     path="/api/v1/retail_eggtv/{ticketId}/issues/{issueId}",
+     *     summary="이용권 코드 발행",
+     *     tags={"Ticket"},
+     *     @OA\Parameter(
+     *         name="ticketId",
+     *         in="path",
+     *         required=true,
+     *         description="이용권 ID",
+     *         @OA\Schema(type="string", example="55")
+     *     ),
+     *     @OA\Parameter(
+     *         name="issueId",
+     *         in="path",
+     *         required=true,
+     *         description="이용권 발행 ID",
+     *         @OA\Schema(type="string", example="26")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="operatorId", type="string", example="1"),
+     *                 @OA\Property(property="teamId", type="string", example="2"),
+     *                 @OA\Property(property="alias", type="string", nullable=true, example=null),
+     *                 @OA\Property(property="description", type="string", nullable=true, example=null),
+     *                 @OA\Property(property="maxCount", type="string",nullable=true, example=null),
+     *                 @OA\Property(property="expiryDate", type="string", nullable=true, example=null),
+     *                 @OA\Property(property="useByDays", type="string", nullable=true, example=null),
+     *                 @OA\Property(property="status", type="string", nullable=true, example=null)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="정상 처리",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="string", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", nullable=true, example=null),
+     *             @OA\Property(property="message", type="string", nullable=true, example=null)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="인증 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="NOT_FOUND_MEMBER_INFO"),
+     *             @OA\Property(property="message", type="string", example="회원정보를 찾을 수 없습니다.")
+     *         )
+     *     )
+     * )
+     */
+    public function updateTicketIssue($ticketId, $issueId)
+    {
+        try {
+            $data = $this->request->getJSON();
+
+            $operatorId = $data->operatorId;
+            $teamId = $data->teamId;
+            if (!isset($operatorId) || !isset($teamId)) {
+                return setResponseFormat($this->response, 'NOT_FOUND_MEMBER_INFO', null);
+            }
+
+            $name = $data->name ?? null;
+            $description = $data->description ?? null;
+            $maxCount = $data->maxCount ?? null;
+            $expiryDate = $data->expiryDate ?? null;
+            $days = $data->days ?? null;
+            $status = $data->status ?? null;
+
+            $this->spModel->executeSP('sp-op-eggtv_ticket_issuings-u-v1', 11, [$operatorId, $teamId, SERVER_ADDR, $issueId, $name, $description, $maxCount, $expiryDate, $days, $status, $this->callDate]);
+            return setResponseFormat($this->response, null, null);
+        } catch (Exception $e) {
+            logException($e);
+            return setResponseFormat($this->response, $e->getMessage(), null);
+        }
+    }
 }
