@@ -390,6 +390,123 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "이용권 삭제",
+                "operationId": "295892fc258c16e474078aa46674826e",
+                "parameters": [
+                    {
+                        "name": "ticketId",
+                        "in": "path",
+                        "description": "이용권 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "112"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "operatorId": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "teamId": {
+                                        "type": "string",
+                                        "example": "2"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "정상 처리",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "인증 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_MEMBER_INFO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "회원정보를 찾을 수 없습니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "조회 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ALREADY_ISSUED_EGGTV_TICKET || NOT_FOUND_EGGTV_TICKET || MISSING_REQUIRED_DATA"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "발행 이력이 있는 에그TV 이용권입니다. || 에그TV 이용권이 없습니다. || 데이터를 입력해주세요."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },

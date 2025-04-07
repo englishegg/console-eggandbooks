@@ -244,4 +244,71 @@ class Ticket extends BaseController
             return setResponseFormat($this->response, $e->getMessage(), null);
         }
     }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/retail_eggtv/{ticketId}",
+     *     summary="이용권 삭제",
+     *     tags={"Ticket"},
+     *     @OA\Parameter(
+     *         name="ticketId",
+     *         in="path",
+     *         required=true,
+     *         description="이용권 ID",
+     *         @OA\Schema(type="string", example="112")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="operatorId", type="string", example="1"),
+     *                 @OA\Property(property="teamId", type="string", example="2")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="정상 처리",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", nullable=true, example=null),
+     *             @OA\Property(property="message", type="string", nullable=true, example=null)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="인증 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="NOT_FOUND_MEMBER_INFO"),
+     *             @OA\Property(property="message", type="string", example="회원정보를 찾을 수 없습니다.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="조회 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="ALREADY_ISSUED_EGGTV_TICKET || NOT_FOUND_EGGTV_TICKET || MISSING_REQUIRED_DATA"),
+     *             @OA\Property(property="message", type="string", example="발행 이력이 있는 에그TV 이용권입니다. || 에그TV 이용권이 없습니다. || 데이터를 입력해주세요.")
+     *         )
+     *     )
+     * )
+     */
+    public function deleteTicket($ticketId)
+    {
+        try {
+            $operatorId = $this->request->getVar('operatorId');
+            $teamId = $this->request->getVar('teamId');
+            if (!isset($operatorId) || !isset($teamId)) {
+                return setResponseFormat($this->response, 'NOT_FOUND_MEMBER_INFO', null);
+            }
+
+            $this->spModel->executeSP('sp-op-eggtv_tickets-d-v1', 5, [$operatorId, $teamId, SERVER_ADDR, $ticketId, $this->callDate]);
+            return setResponseFormat($this->response, null, null);
+        } catch (Exception $e) {
+            logException($e);
+            return setResponseFormat($this->response, $e->getMessage(), null);
+        }
+    }
 }
