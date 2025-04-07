@@ -1269,6 +1269,122 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "이용권 코드 수정",
+                "operationId": "7e5faedcc3312af3bcc679ea0c106e75",
+                "parameters": [
+                    {
+                        "name": "ticketId",
+                        "in": "path",
+                        "description": "이용권 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "55"
+                        }
+                    },
+                    {
+                        "name": "issueId",
+                        "in": "path",
+                        "description": "이용권 발행 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "26"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "operatorId": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "teamId": {
+                                        "type": "string",
+                                        "example": "2"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "6A5JMHSC"
+                                    },
+                                    "expiryDate": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "정상 처리",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "인증 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_MEMBER_INFO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "회원정보를 찾을 수 없습니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },

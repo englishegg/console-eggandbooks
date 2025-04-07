@@ -18,3 +18,4 @@ $routes->post('/api/v1/retail_eggtv/(:num)/issues', 'Products\EggTv\Ticket::crea
 $routes->get('/api/v1/retail_eggtv/(:num)/issues/(:num)', 'Products\EggTv\Ticket::readOneTicketIssue/$1/$2');
 $routes->put('/api/v1/retail_eggtv/(:num)/issues/(:num)', 'Products\EggTv\Ticket::updateTicketIssue/$1/$2');
 $routes->get('/api/v1/retail_eggtv/(:num)/issues/(:num)/codes', 'Products\EggTv\Ticket::readAllTicketCodes/$1/$2');
+$routes->put('/api/v1/retail_eggtv/(:num)/issues/(:num)/codes', 'Products\EggTv\Ticket::updateTicketCode/$1/$2');
