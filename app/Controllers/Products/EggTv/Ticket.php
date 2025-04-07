@@ -580,7 +580,7 @@ class Ticket extends BaseController
     /**
      * @OA\Put(
      *     path="/api/v1/retail_eggtv/{ticketId}/issues/{issueId}",
-     *     summary="이용권 코드 발행",
+     *     summary="이용권 코드 발행 속성 수정",
      *     tags={"Ticket"},
      *     @OA\Parameter(
      *         name="ticketId",
