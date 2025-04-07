@@ -63,7 +63,7 @@ class Ticket extends BaseController
      *     ),
      *     @OA\Response(
      *         response="401",
-     *         description="조회 실패",
+     *         description="인증 실패",
      *         @OA\JsonContent(
      *             @OA\Property(property="data", type="object", nullable=true, example=null),
      *             @OA\Property(property="code", type="string", example="NOT_FOUND_MEMBER_INFO"),
@@ -219,7 +219,7 @@ class Ticket extends BaseController
      *     ),
      *     @OA\Response(
      *         response="401",
-     *         description="조회 실패",
+     *         description="인증 실패",
      *         @OA\JsonContent(
      *             @OA\Property(property="data", type="object", nullable=true, example=null),
      *             @OA\Property(property="code", type="string", example="NOT_FOUND_MEMBER_INFO"),
