@@ -94,7 +94,7 @@
                         }
                     },
                     "401": {
-                        "description": "조회 실패",
+                        "description": "인증 실패",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -365,7 +365,7 @@
                         }
                     },
                     "401": {
-                        "description": "조회 실패",
+                        "description": "인증 실패",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -633,7 +633,7 @@
                         }
                     },
                     "401": {
-                        "description": "조회 실패",
+                        "description": "인증 실패",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -650,6 +650,173 @@
                                         "message": {
                                             "type": "string",
                                             "example": "회원정보를 찾을 수 없습니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "이용권 코드 발행",
+                "operationId": "793bda439d016e587af5e4cfb8d2dd9f",
+                "parameters": [
+                    {
+                        "name": "ticketId",
+                        "in": "path",
+                        "description": "이용권 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "55"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "operatorId": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "teamId": {
+                                        "type": "string",
+                                        "example": "2"
+                                    },
+                                    "alias": {
+                                        "type": "string",
+                                        "example": "에그TV 이용권 별칭"
+                                    },
+                                    "use": {
+                                        "type": "string",
+                                        "example": "2"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "이용권 발행 설명"
+                                    },
+                                    "maxCount": {
+                                        "type": "string",
+                                        "example": "5"
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "expiryDate": {
+                                        "type": "string",
+                                        "example": "2025-06-30",
+                                        "nullable": true
+                                    },
+                                    "useByDays": {
+                                        "type": "string",
+                                        "example": "7"
+                                    },
+                                    "totalCount": {
+                                        "type": "string",
+                                        "example": "10",
+                                        "nullable": true
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "emNos": {
+                                        "type": "string",
+                                        "example": null,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "정상 처리",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "eggtv_ticket_code_id": {
+                                                    "description": "이용권 코드 ID",
+                                                    "type": "string",
+                                                    "example": "109"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "인증 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_MEMBER_INFO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "회원정보를 찾을 수 없습니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "조회 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_EGGTV_TICKET || INVALID_ARGUMENT || DUPLICATED_EGGTV_TICKET_CODE || MISSING_REQUIRED_DATA"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "에그TV 이용권이 없습니다. (pEggtvTicketId 값이 존재하지 않습니다.) || input argument가 올바르지 않습니다. (pSubscriptionEndDate) || 이미 발행한 에그TV 이용권 코드입니다. || 데이터를 입력해주세요."
                                         }
                                     },
                                     "type": "object"

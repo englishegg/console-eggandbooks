@@ -389,4 +389,102 @@ class Ticket extends BaseController
             return setResponseFormat($this->response, $e->getMessage(), null);
         }
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/v1/retail_eggtv/{ticketId}/issues",
+     *     summary="이용권 코드 발행",
+     *     tags={"Ticket"},
+     *     @OA\Parameter(
+     *         name="ticketId",
+     *         in="path",
+     *         required=true,
+     *         description="이용권 ID",
+     *         @OA\Schema(type="string", example="55")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="operatorId", type="string", example="1"),
+     *                 @OA\Property(property="teamId", type="string", example="2"),
+     *                 @OA\Property(property="alias", type="string", example="에그TV 이용권 별칭"),
+     *                 @OA\Property(property="use", type="string", example="2"),
+     *                 @OA\Property(property="description", type="string", example="이용권 발행 설명"),
+     *                 @OA\Property(property="maxCount", type="string", example="5"),
+     *                 @OA\Property(property="endDate", type="string", nullable=true, example=null),
+     *                 @OA\Property(property="expiryDate", type="string", nullable=true, example="2025-06-30"),
+     *                 @OA\Property(property="useByDays", type="string", example="7"),
+     *                 @OA\Property(property="totalCount", type="string", nullable=true, example="10"),
+     *                 @OA\Property(property="code", type="string", nullable=true, example=null),
+     *                 @OA\Property(property="emNos", type="string", nullable=true, example=null)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="정상 처리",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="eggtv_ticket_code_id", type="string", example="109", description="이용권 코드 ID"),
+     *             ),
+     *             @OA\Property(property="code", type="string", nullable=true, example=null),
+     *             @OA\Property(property="message", type="string", nullable=true, example=null)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="인증 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="NOT_FOUND_MEMBER_INFO"),
+     *             @OA\Property(property="message", type="string", example="회원정보를 찾을 수 없습니다.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="조회 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="NOT_FOUND_EGGTV_TICKET || INVALID_ARGUMENT || DUPLICATED_EGGTV_TICKET_CODE || MISSING_REQUIRED_DATA"),
+     *             @OA\Property(property="message", type="string", example="에그TV 이용권이 없습니다. (pEggtvTicketId 값이 존재하지 않습니다.) || input argument가 올바르지 않습니다. (pSubscriptionEndDate) || 이미 발행한 에그TV 이용권 코드입니다. || 데이터를 입력해주세요.")
+     *         )
+     *     )
+     * )
+     */
+    public function createTicketIssue($ticketId)
+    {
+        try {
+            $data = $this->request->getJSON();
+
+            $operatorId = $data->operatorId;
+            $teamId = $data->teamId;
+            if (!isset($operatorId) || !isset($teamId)) {
+                return setResponseFormat($this->response, 'NOT_FOUND_MEMBER_INFO', null);
+            }
+
+            $alias = $data->alias;
+            $use = $data->use;
+            $description = $data->description;
+            $maxCount = $data->maxCount ?? null;
+            $endDate = $data->endDate ?? null;
+            $expiryDate = $data->expiryDate;
+            $useByDays = $data->useByDays;
+            $totalCount = $data->totalCount ?? null;
+            $code = $data->code ?? null;
+            $emNos = $data->emNos ?? null;
+            if (!isset($alias) || !isset($use) || !isset($description) || !isset($expiryDate) || !isset($useByDays)) {
+                return setResponseFormat($this->response, 'MISSING_REQUIRED_DATA', null);
+            }
+
+            $result = $this->spModel->executeSP('sp-op-eggtv_ticket_issuings-c-v3', 15,
+                [$operatorId, $teamId, SERVER_ADDR, $ticketId, $alias, $use, $description, $maxCount, $endDate, $expiryDate, $useByDays, $totalCount, $code, $emNos, $this->callDate]);
+            return setResponseFormat($this->response, null, $result);
+        } catch (Exception $e) {
+            logException($e);
+            return setResponseFormat($this->response, $e->getMessage(), null);
+        }
+    }
 }
