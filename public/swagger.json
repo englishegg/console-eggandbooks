@@ -1383,6 +1383,232 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "조회 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "INVALID_CODE_VALUE"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "코드 값을 확인해주세요."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/retail_eggtv/search": {
+            "get": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "에그TV 이용권 코드 검색",
+                "operationId": "81ce0809989e041452f4d25894e8d152",
+                "parameters": [
+                    {
+                        "name": "operatorId",
+                        "in": "query",
+                        "description": "운영자 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "name": "teamId",
+                        "in": "query",
+                        "description": "팀 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "2"
+                        }
+                    },
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "description": "이용권 코드",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "6A5JMHSC"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "정상 처리",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "eggtv_ticket_id": {
+                                                    "description": "이용권 ID",
+                                                    "type": "string",
+                                                    "example": "55"
+                                                },
+                                                "eggtv_ticket_type": {
+                                                    "description": "이용권 유형(0=SUBSCRIPTION=기간 이용권,1=TIER_UPGRADE=구독 등급 업그레이드)",
+                                                    "type": "string",
+                                                    "example": "0"
+                                                },
+                                                "subscription_tier": {
+                                                    "description": "구독 티어(1=LITE=라이트,2=STANDARD=스탠다드,3=PLUS=플러스,4=PREMIUM=프리미엄)",
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "subscription_days": {
+                                                    "description": "구독 기간 OR 업그레이드 적용 기간(단위: 일)",
+                                                    "type": "string",
+                                                    "example": "2"
+                                                },
+                                                "eggtv_ticket_issuing_id": {
+                                                    "description": "이용권 발행 ID",
+                                                    "type": "string",
+                                                    "example": "26"
+                                                },
+                                                "eggtv_ticket_alias": {
+                                                    "description": "이용권 별칭",
+                                                    "type": "string",
+                                                    "example": "라이트 이용권"
+                                                },
+                                                "intended_use": {
+                                                    "description": "사용 목적(0=CS=고객 보상,1=MARKETING=마케팅,2=QA_TEST=내부 테스트,255=EMPLOYEE_BENEFIT=임직원 복리후생)",
+                                                    "type": "string",
+                                                    "example": "2"
+                                                },
+                                                "issue_description": {
+                                                    "description": "이용권 발행 설명",
+                                                    "type": "string",
+                                                    "example": "이용권 발행 설명"
+                                                },
+                                                "issue_date": {
+                                                    "description": "이용권 코드 발행 일자",
+                                                    "type": "string",
+                                                    "example": "2025-04-07 02:05:31"
+                                                },
+                                                "eggtv_ticket_code_id": {
+                                                    "description": "이용권 코드 ID",
+                                                    "type": "string",
+                                                    "example": "1176"
+                                                },
+                                                "eggtv_ticket_code": {
+                                                    "description": "이용권 코드",
+                                                    "type": "string",
+                                                    "example": "6A5JMHSC"
+                                                },
+                                                "expiry_date": {
+                                                    "description": "등록 만료 일자",
+                                                    "type": "string",
+                                                    "example": "2025-06-30"
+                                                },
+                                                "eggtv_ticket_code_status": {
+                                                    "description": "이용권 코드 상태(0=DISABLED=비활성,1=ENABLED=활성)",
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "registration_count": {
+                                                    "description": "등록 횟수",
+                                                    "type": "string",
+                                                    "example": "10"
+                                                },
+                                                "max_registration_count": {
+                                                    "description": "이용권 코드 1개 당 등록할 수 있는 최대 횟수",
+                                                    "type": "string",
+                                                    "example": "0"
+                                                },
+                                                "use_count": {
+                                                    "description": "사용 횟수",
+                                                    "type": "string",
+                                                    "example": "0"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "인증 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_MEMBER_INFO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "회원정보를 찾을 수 없습니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "조회 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ENTER_SEARCH_CODE"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "검색할 코드를 입력해주세요."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }

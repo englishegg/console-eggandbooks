@@ -821,4 +821,101 @@ class Ticket extends BaseController
             return setResponseFormat($this->response, $e->getMessage(), null);
         }
     }
+
+    /**
+     * @OA\Get (
+     *     path="/api/v1/retail_eggtv/search",
+     *     summary="에그TV 이용권 코드 검색",
+     *     tags={"Ticket"},
+     *     @OA\Parameter(
+     *         name="operatorId",
+     *         in="query",
+     *         required=true,
+     *         description="운영자 ID",
+     *         @OA\Schema(type="string", example="1")
+     *     ),
+     *     @OA\Parameter(
+     *         name="teamId",
+     *         in="query",
+     *         required=true,
+     *         description="팀 ID",
+     *         @OA\Schema(type="string", example="2")
+     *     ),
+     *     @OA\Parameter(
+     *         name="code",
+     *         in="query",
+     *         required=true,
+     *         description="이용권 코드",
+     *         @OA\Schema(type="string", example="6A5JMHSC")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="정상 처리",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 nullable=true,
+     *                 @OA\Property(property="eggtv_ticket_id", type="string", example="55", description="이용권 ID"),
+     *                 @OA\Property(property="eggtv_ticket_type", type="string", example="0", description="이용권 유형(0=SUBSCRIPTION=기간 이용권,1=TIER_UPGRADE=구독 등급 업그레이드)"),
+     *                 @OA\Property(property="subscription_tier", type="string", example="1", description="구독 티어(1=LITE=라이트,2=STANDARD=스탠다드,3=PLUS=플러스,4=PREMIUM=프리미엄)"),
+     *                 @OA\Property(property="subscription_days", type="string", example="2", description="구독 기간 OR 업그레이드 적용 기간(단위: 일)"),
+     *                 @OA\Property(property="eggtv_ticket_issuing_id", type="string", example="26", description="이용권 발행 ID"),
+     *                 @OA\Property(property="eggtv_ticket_alias", type="string", example="라이트 이용권", description="이용권 별칭"),
+     *                 @OA\Property(property="intended_use", type="string", example="2", description="사용 목적(0=CS=고객 보상,1=MARKETING=마케팅,2=QA_TEST=내부 테스트,255=EMPLOYEE_BENEFIT=임직원 복리후생)"),
+     *                 @OA\Property(property="issue_description", type="string", example="이용권 발행 설명", description="이용권 발행 설명"),
+     *                 @OA\Property(property="issue_date", type="string", example="2025-04-07 02:05:31", description="이용권 코드 발행 일자"),
+     *                 @OA\Property(property="eggtv_ticket_code_id", type="string", example="1176", description="이용권 코드 ID"),
+     *                 @OA\Property(property="eggtv_ticket_code", type="string", example="6A5JMHSC", description="이용권 코드"),
+     *                 @OA\Property(property="expiry_date", type="string", example="2025-06-30", description="등록 만료 일자"),
+     *                 @OA\Property(property="eggtv_ticket_code_status", type="string", example="1", description="이용권 코드 상태(0=DISABLED=비활성,1=ENABLED=활성)"),
+     *                 @OA\Property(property="registration_count", type="string", example="10", description="등록 횟수"),
+     *                 @OA\Property(property="max_registration_count", type="string", example="0", description="이용권 코드 1개 당 등록할 수 있는 최대 횟수"),
+     *                 @OA\Property(property="use_count", type="string", example="0", description="사용 횟수"),
+     *             ),
+     *             @OA\Property(property="code", type="string", nullable=true, example=null),
+     *             @OA\Property(property="message", type="string", nullable=true, example=null)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="인증 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="NOT_FOUND_MEMBER_INFO"),
+     *             @OA\Property(property="message", type="string", example="회원정보를 찾을 수 없습니다.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="조회 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="ENTER_SEARCH_CODE"),
+     *             @OA\Property(property="message", type="string", example="검색할 코드를 입력해주세요.")
+     *         )
+     *     )
+     * )
+     */
+    public function searchTicketCode()
+    {
+        try {
+            $operatorId = $this->request->getVar('operatorId');
+            $teamId = $this->request->getVar('teamId');
+            if (!isset($operatorId) || !isset($teamId)) {
+                return setResponseFormat($this->response, 'NOT_FOUND_MEMBER_INFO', null);
+            }
+
+            $code = $this->request->getVar('code');
+            if (!isset($code)) {
+                return setResponseFormat($this->response, 'ENTER_SEARCH_CODE', null);
+            }
+
+            $result = $this->spModel->executeSP('sp-op-eggtv_ticket_codes-ro-v1', 5, [$operatorId, $teamId, SERVER_ADDR, $code, $this->callDate]);
+            return setResponseFormat($this->response, null, $result);
+        } catch (Exception $e) {
+            logException($e);
+            return setResponseFormat($this->response, $e->getMessage(), null);
+        }
+    }
 }
