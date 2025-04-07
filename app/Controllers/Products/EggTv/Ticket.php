@@ -784,6 +784,15 @@ class Ticket extends BaseController
      *             @OA\Property(property="code", type="string", example="NOT_FOUND_MEMBER_INFO"),
      *             @OA\Property(property="message", type="string", example="회원정보를 찾을 수 없습니다.")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="조회 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="INVALID_CODE_VALUE"),
+     *             @OA\Property(property="message", type="string", example="코드 값을 확인해주세요.")
+     *         )
      *     )
      * )
      */
