@@ -508,6 +508,157 @@
                     }
                 }
             }
+        },
+        "/api/v1/retail_eggtv/{ticketId}/issues": {
+            "get": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "이용권 코드 발행 이력",
+                "operationId": "cbcdf57676b7ca6782ad092047cf2de8",
+                "parameters": [
+                    {
+                        "name": "ticketId",
+                        "in": "path",
+                        "description": "이용권 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "55"
+                        }
+                    },
+                    {
+                        "name": "operatorId",
+                        "in": "query",
+                        "description": "운영자 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "name": "teamId",
+                        "in": "query",
+                        "description": "팀 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "2"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "정상 처리",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "eggtv_ticket_issuing_id": {
+                                                    "description": "이용권 발행 ID",
+                                                    "type": "string",
+                                                    "example": "8"
+                                                },
+                                                "operator_id": {
+                                                    "description": "운영자 ID",
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "operator_name": {
+                                                    "description": "운영자 이름",
+                                                    "type": "string",
+                                                    "example": "김에그"
+                                                },
+                                                "eggtv_ticket_alias": {
+                                                    "description": "이용권 별칭",
+                                                    "type": "string",
+                                                    "example": "이용권 별칭"
+                                                },
+                                                "issue_description": {
+                                                    "description": "이용권 발행 설명",
+                                                    "type": "string",
+                                                    "example": "발행 사유"
+                                                },
+                                                "max_registration_count": {
+                                                    "description": "이용권 코드 1개 당 1명이 등록할 수 있는 최대 횟수",
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "eggtv_ticket_issuing_status": {
+                                                    "description": "이용권 발행 상태(0=DISABLED=비활성,1=ENABLED=활성)",
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "issue_date": {
+                                                    "description": "발행 일자",
+                                                    "type": "string",
+                                                    "example": "2024-12-04 13:40:18"
+                                                },
+                                                "total_issue_count": {
+                                                    "description": "총 발행 수량",
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "total_registration_count": {
+                                                    "description": "총 등록 수량",
+                                                    "type": "string",
+                                                    "example": "0"
+                                                },
+                                                "intended_use": {
+                                                    "description": "사용 목적(0=CS=고객 보상,1=MARKETING=마케팅,2=QA_TEST=내부 테스트,255=EMPLOYEE_BENEFIT=임직원 복리후생)",
+                                                    "type": "string",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "조회 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_MEMBER_INFO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "회원정보를 찾을 수 없습니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": [
