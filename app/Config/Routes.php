@@ -15,3 +15,4 @@ $routes->get('/api/v1/retail_eggtv/(:num)', 'Products\EggTv\Ticket::readOneTicke
 $routes->delete('/api/v1/retail_eggtv/(:num)', 'Products\EggTv\Ticket::deleteTicket/$1');
 $routes->get('/api/v1/retail_eggtv/(:num)/issues', 'Products\EggTv\Ticket::readAllTicketIssues/$1');
 $routes->post('/api/v1/retail_eggtv/(:num)/issues', 'Products\EggTv\Ticket::createTicketIssue/$1');
+$routes->get('/api/v1/retail_eggtv/(:num)/issues/(:num)', 'Products\EggTv\Ticket::readOneTicketIssue/$1/$2');
