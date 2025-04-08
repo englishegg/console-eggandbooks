@@ -1872,6 +1872,152 @@
                     }
                 }
             }
+        },
+        "/api/v1/retail_eggtv/used": {
+            "get": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "이용권 코드를 사용한 회원 목록",
+                "operationId": "5e691f0546c6fbe3c99541cd4511adb6",
+                "parameters": [
+                    {
+                        "name": "operatorId",
+                        "in": "query",
+                        "description": "운영자 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "name": "teamId",
+                        "in": "query",
+                        "description": "팀 ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "2"
+                        }
+                    },
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "description": "이용권 코드",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "G9NPHJAPSRDN"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "정상 처리",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "em_no": {
+                                                    "description": "정회원 ID",
+                                                    "type": "string",
+                                                    "example": "9992321"
+                                                },
+                                                "em_parent": {
+                                                    "description": "부모명",
+                                                    "type": "string",
+                                                    "example": "고길동"
+                                                },
+                                                "em_email": {
+                                                    "description": "이메일",
+                                                    "type": "string",
+                                                    "example": "it@englishegg.co.kr"
+                                                },
+                                                "register_date": {
+                                                    "description": "이용권 코드 등록 일자",
+                                                    "type": "string",
+                                                    "example": "2025-04-08"
+                                                },
+                                                "use_date": {
+                                                    "description": "사용 일자",
+                                                    "type": "string",
+                                                    "example": "2025-04-08"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "인증 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND_MEMBER_INFO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "회원정보를 찾을 수 없습니다."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "조회 실패",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ENTER_SEARCH_CODE"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "검색할 코드를 입력해주세요."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": [

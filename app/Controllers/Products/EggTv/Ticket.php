@@ -957,7 +957,7 @@ class Ticket extends BaseController
      *                 @OA\Property(property="em_parent", type="string", example="고길동", description="부모명"),
      *                 @OA\Property(property="em_email", type="string", example="it@englishegg.co.kr", description="이메일"),
      *                 @OA\Property(property="register_date", type="string", example="2025-04-08", description="이용권 코드 등록 일자"),
-     *                 @OA\Property(property="use_date", type="string", nullable=true, example=null, description="사용 일자"),
+     *                 @OA\Property(property="use_date", type="string", nullable=true, example=null, description="사용 일자")
      *             ),
      *             @OA\Property(property="code", type="string", nullable=true, example=null),
      *             @OA\Property(property="message", type="string", nullable=true, example=null)
@@ -1067,6 +1067,91 @@ class Ticket extends BaseController
             }
             $this->spModel->executeSP('sp-op-eggtv_ticket_code_registrations-d-v1', 6, [$operatorId, $teamId, SERVER_ADDR, $emNo, $code, $this->callDate]);
             return setResponseFormat($this->response, null, null);
+        } catch (Exception $e) {
+            logException($e);
+            return setResponseFormat($this->response, $e->getMessage(), null);
+        }
+    }
+
+    /**
+     * @OA\Get (
+     *     path="/api/v1/retail_eggtv/used",
+     *     summary="이용권 코드를 사용한 회원 목록",
+     *     tags={"Ticket"},
+     *     @OA\Parameter(
+     *         name="operatorId",
+     *         in="query",
+     *         required=true,
+     *         description="운영자 ID",
+     *         @OA\Schema(type="string", example="1")
+     *     ),
+     *     @OA\Parameter(
+     *         name="teamId",
+     *         in="query",
+     *         required=true,
+     *         description="팀 ID",
+     *         @OA\Schema(type="string", example="2")
+     *     ),
+     *     @OA\Parameter(
+     *         name="code",
+     *         in="query",
+     *         required=true,
+     *         description="이용권 코드",
+     *         @OA\Schema(type="string", example="4F6A285YANM4")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="정상 처리",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 nullable=true,
+     *                 @OA\Property(property="em_no", type="string", example="9992321", description="정회원 ID"),
+     *                 @OA\Property(property="em_parent", type="string", example="고길동", description="부모명"),
+     *                 @OA\Property(property="em_email", type="string", example="it@englishegg.co.kr", description="이메일"),
+     *                 @OA\Property(property="register_date", type="string", example="2025-04-08", description="이용권 코드 등록 일자"),
+     *                 @OA\Property(property="use_date", type="string", example="2025-04-08", description="사용 일자")
+     *             ),
+     *             @OA\Property(property="code", type="string", nullable=true, example=null),
+     *             @OA\Property(property="message", type="string", nullable=true, example=null)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="인증 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="NOT_FOUND_MEMBER_INFO"),
+     *             @OA\Property(property="message", type="string", example="회원정보를 찾을 수 없습니다.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="조회 실패",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", nullable=true, example=null),
+     *             @OA\Property(property="code", type="string", example="ENTER_SEARCH_CODE"),
+     *             @OA\Property(property="message", type="string", example="검색할 코드를 입력해주세요.")
+     *         )
+     *     )
+     * )
+     */
+    public function usedTicket()
+    {
+        try {
+            $operatorId = $this->request->getVar('operatorId');
+            $teamId = $this->request->getVar('teamId');
+            if (!isset($operatorId) || !isset($teamId)) {
+                return setResponseFormat($this->response, 'NOT_FOUND_MEMBER_INFO', null);
+            }
+
+            $code = $this->request->getVar('code');
+            if (!isset($code)) {
+                return setResponseFormat($this->response, 'EMPTY_SEARCH_CODE', null);
+            }
+            $result = $this->spModel->executeSP('sp-op-eggtv_ticket_code_usages-ra-v1', 5, [$operatorId, $teamId, SERVER_ADDR, $code, $this->callDate]);
+            return setResponseFormat($this->response, null, $result);
         } catch (Exception $e) {
             logException($e);
             return setResponseFormat($this->response, $e->getMessage(), null);
