@@ -23,3 +23,4 @@ $routes->get('/api/v1/retail_eggtv/search', 'Products\EggTv\Ticket::searchTicket
 $routes->get('/api/v1/retail_eggtv/registered', 'Products\EggTv\Ticket::registeredTicket');
 $routes->delete('/api/v1/retail_eggtv/registered', 'Products\EggTv\Ticket::retrieveRegisteredTicket');
 $routes->get('/api/v1/retail_eggtv/used', 'Products\EggTv\Ticket::usedTicket');
+$routes->delete('/api/v1/retail_eggtv/used', 'Products\EggTv\Ticket::retrieveUsedTicket');
